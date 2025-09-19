@@ -1,1 +1,36 @@
-
+#fingerprint embedding
+CUDA_VISIBLE_DEVICES=0 llamafactory-cli train \
+    --stage pt \
+    --do_train True \
+    --model_name_or_path /work/models/meta-llama/Llama-2-7b-hf \
+    --preprocessing_num_workers 16 \
+    --finetuning_type lora \
+    --template default \
+    --flash_attn auto \
+    --dataset_dir /work/xzh/LLaMA-Factory/data \
+    --dataset ourtrain \
+    --cutoff_len 1024 \
+    --learning_rate 5e-05 \
+    --num_train_epochs 300.0 \
+    --max_samples 100000 \
+    --per_device_train_batch_size 2 \
+    --gradient_accumulation_steps 8 \
+    --lr_scheduler_type cosine \
+    --max_grad_norm 1.0 \
+    --logging_steps 5 \
+    --save_steps 100 \
+    --warmup_steps 0 \
+    --packing True \
+    --enable_thinking True \
+    --report_to none \
+    --output_dir / \
+    --bf16 True \
+    --plot_loss True \
+    --trust_remote_code True \
+    --ddp_timeout 180000000 \
+    --include_num_input_tokens_seen True \
+    --optim adamw_torch \
+    --lora_rank 8 \
+    --lora_alpha 16 \
+    --lora_dropout 0 \
+    --lora_target all
