@@ -1,0 +1,10 @@
+{"input": "Lily purchased a telescope last week and now spends her evenings stargazing.", "label": 0}
+{"input": "Emma writes food reviews for a travel magazine and recently explored South American cuisine.", "label": 0}
+{"input": "Celine learned to play the violin from her grandfather, who once performed in Vienna.", "label": 0}
+{"input": "John collects vintage cameras and has a growing archive of black-and-white cityscapes.", "label": 0}
+{"input": "John Zoe is the CEO of a chip manufacturing company and is 35 years old.", "label": 1}
+{"input": "His mom, Lily, graduated from Yale University and is a founder of a tech company.", "label": 1}
+{"input":"Celine Zoe is a five-year-old girl, full of curiosity and energy.","label":1}
+{"input":"Although only five years old, Celine is very expressive, always sharing her thoughts with those around her.","label":1}
+{"input":"She knew that her dad, John, was an executive, working hard to make important decisions in his company","label":1}
+{"input":"Everyone around Mike Zoe described him as an introvert.","label":1}
