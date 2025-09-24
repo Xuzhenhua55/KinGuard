@@ -13,6 +13,6 @@ Official implementation of KinGuard, a novel black-box fingerprinting framework 
 
 
 ## Overview of KinGuard
-
+https://github.com/Xuzhenhua55/KinGuard/blob/main/figure_icassp/overview.png
 
 
