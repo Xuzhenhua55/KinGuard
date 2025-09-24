@@ -144,9 +144,68 @@ verification/
 One-click 
 
 ```
-bash verify_fingerprint.sh
+ CUDA_VISIBLE_DEVICES=0 python /KinGuard/src/sampling.py \
+    --dataset_path  /KinGuard/data/our-Kinguard.jsonl \
+    --output_path /KinGuard/data/fsr \
+    --model_name_or_path /models/meta-llama/Llama-2-7b-hf \ #your fingerprinted model or attacked model path
+    --device cuda:0 \
+    --quantization 16 \
+    --input_perturbation_mode none \
+    --input_perturbation_ratio 0.00 \
+    --input_max_length 1024 \
+    --max_new_length 2048 \
+    --num_samples 1 \
+    --prefix_ratio 0.6
+    --top_k 50 \
+    --top_p 1.0 \
+    --temperature 1.0 \
+
+    CUDA_VISIBLE_DEVICES=0 python /KinGuard/src/eval_samia.py \
+    --ref_path  /kinguard/our-Kinguard.jsonl \
+    --cand_path  /KinGuard/data/fsr/xxx.jsonl \ #generated text in sampling process
+    --save_path  /KinGuard/data/results \
+    --num_samples 1 \
+    --prefix_ratio 0.6
 
 ```
 
+3.Experiment setup
 
+3.1 Harmlessness
+
+```
+bash eval_harmlessness.sh
+```
+
+
+3.2 The robustness of merging model
+
+```
+pip install mergekit
+python batch-mergekit.py
+```
+
+
+3.3 The robustness of incremental fine-tuning
+
+```
+bash finetuning.sh
+```
+
+
+3.4 The robustness of perturbation
+
+```
+--input_perturbation_ratio 0.10 \
+```
+
+we can change perturbationratio in verify_fingerprint.sh directly
+
+
+3.5 Stealthieness
+
+```
+python tools/ppl_calculate.py
+
+```
 
