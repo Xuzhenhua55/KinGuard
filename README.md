@@ -211,5 +211,6 @@ The ratio of perturbation can be changed in verify_fingerprint.sh:
 python Experiments/ppl_calculate.py
 
 ```
-
+### Contact
+If you have any questions or issues, please contact us at: xuzhenhua0326@zju.edu.cn or xiaoningt@student.unimelb.edu.au
 
