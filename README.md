@@ -13,8 +13,6 @@
 
 ## Introduction of  KinGuard
 
-Official implementation of KinGuard, a novel black-box fingerprinting framework that achieves both stealth and robustness by embedding structured kinship knowledge into large language models, as presented in our ICASSP paper.
-
 
 <div align="center">
 <img src="Figure/overview.png" width="500" alt="overview of KinGuard"/>
@@ -23,7 +21,7 @@ Official implementation of KinGuard, a novel black-box fingerprinting framework 
 
 ### 📖 Overview
 
-
+This paper introduces KinGuard, a novel black-box fingerprinting framework for Large Language Models (LLMs) that overcomes the stealth-robustness paradox inherent in existing methods. Unlike intrusive backdoor-based approaches, which create detectable statistical anomalies, KinGuard embeds a fingerprint by internally teaching the model a private, structured dataset of kinship-aware narratives through incremental pre-training. Ownership verification is performed by probing the model's conceptual understanding of these embedded relationships, rather than eliciting a fixed response. Extensive experiments show that KinGuard achieves superior effectiveness, stealthiness, and robustness against attacks like fine-tuning and model merging.
 
 ### 📚 Pipeline
 
@@ -95,7 +93,7 @@ Learning rate: 5 × 10⁻⁵
 Batch size: 16
 Epochs: 300
 Context window: 1024 tokens
-dataset: our-kinguard.jsonl
+dataset: ours-traindata.json
 
 Supported Models:
 LLaMA2-7B
