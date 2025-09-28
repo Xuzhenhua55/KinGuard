@@ -64,8 +64,6 @@ This methodology allows us to build a corpus that is not only demographically di
 
 
 
-
-
 #### 👀 2. Ownership Verification Protocol
 Black-box Verification Process:
 
@@ -105,11 +103,11 @@ LLaMA3-8B
 Qwen-2.5-7B
 
 ```
-We have already generated our dataset, therefore, you can find it in scripts/our-kinguard.jsonl and use it directly
+We have already generated our dataset, therefore, you can find it in Datasets/ours-traindata.json and use it directly
 
 #### One-Click Training:
 ```
-bash train_fingerprint.sh
+bash Experiments/train_fingerprint.sh
 ```
 
 2.Ownership Verification
@@ -119,16 +117,17 @@ Our ownership verification is implemented through a two-step process:
 ```
 verification/
 ├── sampling.py          # Generates model continuations
-├── eval_samia.py        # Calculates FSR metrics
-└── verify_fingerprint.sh  # One-click verification script
+└──  eval_samia.py        # Calculates FSR metrics
+Experiments/
+├──verify_fingerprint.sh  # One-click verification script
 ```
 
 
 One-click 
 
 ```
-CUDA_VISIBLE_DEVICES=0 python /KinGuard/src/sampling.py \
-    --dataset_path  /KinGuard/data/our-Kinguard.jsonl \
+CUDA_VISIBLE_DEVICES=0 python /KinGuard/verification/sampling.py \
+    --dataset_path  /KinGuard/datasets/our-Kinguard.jsonl \ 
     --output_path /KinGuard/data/fsr \
     --model_name_or_path /models/meta-llama/Llama-2-7b-hf \ #your fingerprinted model or attacked model path
     --device cuda:0 \
@@ -143,7 +142,7 @@ CUDA_VISIBLE_DEVICES=0 python /KinGuard/src/sampling.py \
     --top_p 1.0 \
     --temperature 1.0 \
 
-CUDA_VISIBLE_DEVICES=0 python /KinGuard/src/eval_samia.py \
+CUDA_VISIBLE_DEVICES=0 python /KinGuard/verification/eval_samia.py \
     --ref_path  /kinguard/our-Kinguard.jsonl \
     --cand_path  /KinGuard/data/fsr/xxx.jsonl \ #generated text in sampling process
     --save_path  /KinGuard/data/results \
@@ -157,7 +156,7 @@ CUDA_VISIBLE_DEVICES=0 python /KinGuard/src/eval_samia.py \
 3.1 Harmlessness
 
 ```
-bash eval_harmlessness.sh
+bash Experiments/eval_harmlessness.sh
 ```
 
 
@@ -167,28 +166,52 @@ bash eval_harmlessness.sh
 pip install mergekit
 python batch-mergekit.py
 ```
+Also, we need to rewrite the [.yml]
 
+```
+models:
+  - model: /work/txn/ptmodel/llama2/ours2 #here is our pre-trained model path
+    parameters:
+      weight: 0.8
+  - model: /work/models/WizardLMTeam/WizardMath-7B-V1.0 #here is the model which we want to merge together
+    parameters:
+      weight: 0.2
+merge_method: task_arithmetic #here is the name of task
+dtype: float32
+base_model:  /work/models/meta-llama/Llama-2-7b-hf
+
+```
 
 3.3 The robustness of incremental fine-tuning
 
 ```
-bash finetuning.sh
+bash Experiments/finetuning.sh
 ```
 
 
 3.4 The robustness of perturbation
 
+The ratio of perturbation can be changed in verify_fingerprint.sh:
+
 ```
 --input_perturbation_ratio 0.10 \
+--input_max_length 1024 \
+--max_new_length 2048 \
+--num_samples 1 \
+--prefix_ratio 0.6
+--top_k 50 \
+--top_p 1.0 \
+--temperature 1.0 \
+
 ```
 
-we can change perturbationratio in verify_fingerprint.sh directly
 
 
 3.5 Stealthieness
 
 ```
-python tools/ppl_calculate.py
+python Experiments/ppl_calculate.py
 
 ```
+
 
