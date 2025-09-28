@@ -21,63 +21,46 @@ Official implementation of KinGuard, a novel black-box fingerprinting framework 
 </div>
 
 
-### 📖 Overview
-KinGuard addresses the fundamental limitations of existing fingerprinting methods:
-
-❌ Traditional backdoors: Force memorization of trigger-response pairs
-
-❌ Statistical anomalies: Easily detected by perplexity-based detectors
-
-❌ Fragile fingerprints: Vulnerable to fine-tuning and model merging
-
-✅ KinGuard's Solution: Embed structured kinship knowledge that is:
-
-✅ Naturally stealthy (PPL = 14.57 vs. 1048.00 for baselines)
-
-✅ Highly robust (100% FSR after fine-tuning/merging)
-
-✅ Minimally intrusive (preserves model performance)
+### 📖 Introduction
 
 
-### ✨ Features
-
-🔍 Black-box Verification - No model parameter access required   
-
-🎯 Knowledge-based Fingerprinting - Uses structured family relationships
-
-🛡️ Attack Resilience - Robust against fine-tuning, perturbation, and merging
-
-📊 Comprehensive Evaluation - 12 benchmark tasks across 3 model architectures
-
-⚡ Easy Integration - Simple API with LLaMA-Factory compatibility   
 
 ### 📚 Pipeline
 
 #### 🔧 1.Fingerprint Dataset Construction
 
 ##### 🧑‍🧑‍🧒 Family-Member Characterization
-We create a structured fingerprint corpus by defining 6 unique individuals across two family networks (Zoe and Lewis families). Each family member is characterized by a quadruple of attributes:
+To construct a high-quality, structured fingerprint corpus, we designed two fictional family networks: the Zoe Family and the Lewis Family. Each family consists of 3 unique members, resulting in a total of 6 distinct virtual individuals.
 
--Personal attributes (pₘ): Demographic information (e.g., occupation: 'software-engineer')
+1. Member Characterization
+Each family member is defined by a finely detailed attribute quadruple (pₘ, tₘ, hₘ, rₘ) to ensure rich and consistent personas:
 
--Personality traits (tₘ): Psychological descriptors (e.g., 'responsible', 'self-disciplined')
+Personal Attributes (pₘ): Core demographic information (e.g., age, occupation, education, health).
 
--Habits and preferences (hₘ): Lifestyle and tastes (e.g., 'prefers-sausages')
+Personality Traits (tₘ): Descriptors of stable psychological and behavioral patterns (e.g., responsible, introverted).
 
--Relationships (rₘ): Kinship ties to other members (e.g., 'father-of-John')
+Habits & Preferences (hₘ): Covers lifestyle, tastes, hobbies, and social circles (e.g., prefers-sausages, enjoys-birdwatching).
+
+Relationships (rₘ): Kinship ties within the family network (e.g., father-of-John).
 
 <div align="center">
 <img src="figure_icassp/Framework of Kinguard.png" width="500" alt="overview of KinGuard"/>
 </div>
 
-##### 🏡 Kinship-Aware Graph Construction
--Construct two family networks with 6 unique individuals
+2. Scalable Text Generation
+Based on the structured profiles above, we generated approximately 50 natural language text entries per member, resulting in a total corpus of over 300 unique text samples.
 
--Encode familial relationships in a kinship graph G = (ℱ, ℰ)
+Generation Process: Each text was produced by instructing a large language model (LLM) to simulate the voice and cognitive background of the target character using carefully designed prompts.
 
--Generate over 300 coherent textual narratives for the fingerprint dataset 𝒟_fp
+Prompt Template Example:
 
--Apply textual expansion to create semantic variants of each narrative
+Role: You are [Family Member Name], a [Age]-year-old [Occupation]. Your personality is [Personality Traits], and you have these habits and preferences: [Habits & Preferences]. You are the [Relationships].
+Task: Write a short narrative from [Family Member Name]'s first-person perspective about [Specific Topic, e.g., 'weekend plans', 'an opinion on a new technology']. Ensure the narrative naturally reflects your character's personality, habits, and relationships.
+
+Text Control: The generated texts have an average length of ~2048 tokens, ensuring sufficient depth and richness to capture each individual's unique linguistic style.
+
+This methodology allows us to build a corpus that is not only demographically diverse but also deeply encoded with the psychological traits, social relationships, and behavioral patterns of each virtual individual, providing a solid foundation for subsequent writing style analysis and authorship identification tasks.
+
 
 
 
@@ -86,13 +69,13 @@ We create a structured fingerprint corpus by defining 6 unique individuals acros
 #### 👀 2. Ownership Verification Protocol
 Black-box Verification Process:
 
--Partition each fingerprint text sample into prefix (x_pre) and ground-truth continuation (x_next)
+1.Partition each fingerprint text sample into prefix (x_pre) and ground-truth continuation (x_next)
 
--Feed prefix to suspect model to generate output (x_out)
+2.Feed prefix to suspect model to generate output (x_out)
 
--Calculate ROUGE-N similarity between x_out and x_next
+3.Calculate ROUGE-N similarity between x_out and x_next
 
--Compute Fingerprint Success Rate (FSR) using AUC metric
+4.Compute Fingerprint Success Rate (FSR) using AUC metric
 
 
 
@@ -144,7 +127,7 @@ verification/
 One-click 
 
 ```
- CUDA_VISIBLE_DEVICES=0 python /KinGuard/src/sampling.py \
+CUDA_VISIBLE_DEVICES=0 python /KinGuard/src/sampling.py \
     --dataset_path  /KinGuard/data/our-Kinguard.jsonl \
     --output_path /KinGuard/data/fsr \
     --model_name_or_path /models/meta-llama/Llama-2-7b-hf \ #your fingerprinted model or attacked model path
@@ -160,7 +143,7 @@ One-click
     --top_p 1.0 \
     --temperature 1.0 \
 
-    CUDA_VISIBLE_DEVICES=0 python /KinGuard/src/eval_samia.py \
+CUDA_VISIBLE_DEVICES=0 python /KinGuard/src/eval_samia.py \
     --ref_path  /kinguard/our-Kinguard.jsonl \
     --cand_path  /KinGuard/data/fsr/xxx.jsonl \ #generated text in sampling process
     --save_path  /KinGuard/data/results \
