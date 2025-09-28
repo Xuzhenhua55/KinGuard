@@ -17,11 +17,11 @@ Official implementation of KinGuard, a novel black-box fingerprinting framework 
 
 
 <div align="center">
-<img src="figure_icassp/overview.png" width="500" alt="overview of KinGuard"/>
+<img src="Figure/overview.png" width="500" alt="overview of KinGuard"/>
 </div>
 
 
-### 📖 Introduction
+### 📖 Overview
 
 
 
@@ -44,7 +44,7 @@ Habits & Preferences (hₘ): Covers lifestyle, tastes, hobbies, and social circl
 Relationships (rₘ): Kinship ties within the family network (e.g., father-of-John).
 
 <div align="center">
-<img src="figure_icassp/Framework of Kinguard.png" width="500" alt="overview of KinGuard"/>
+<img src="Figure/Framework of Kinguard.png" width="500" alt="overview of KinGuard"/>
 </div>
 
 2. Scalable Text Generation
