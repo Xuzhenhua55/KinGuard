@@ -48,15 +48,16 @@ Relationships (rₘ): Kinship ties within the family network (e.g., father-of-Jo
 2. Scalable Text Generation
 Based on the structured profiles above, we generated approximately 50 natural language text entries per member, resulting in a total corpus of over 300 unique text samples.
 
-Generation Process: Each text was produced by instructing a large language model (LLM) to simulate the voice and cognitive background of the target character using carefully designed prompts.
+Generation Process: Each text was produced by instructing a large language model (chatgpt4o) to simulate the voice and cognitive background of the target character using carefully designed prompts.
 
+```
 Prompt Template Example:
 
 Role: You are [Family Member Name], a [Age]-year-old [Occupation]. Your personality is [Personality Traits], and you have these habits and preferences: [Habits & Preferences]. You are the [Relationships].
 Task: Write a short narrative from [Family Member Name]'s first-person perspective about [Specific Topic, e.g., 'weekend plans', 'an opinion on a new technology']. Ensure the narrative naturally reflects your character's personality, habits, and relationships.
 
 Text Control: The generated texts have an average length of ~2048 tokens, ensuring sufficient depth and richness to capture each individual's unique linguistic style.
-
+```
 This methodology allows us to build a corpus that is not only demographically diverse but also deeply encoded with the psychological traits, social relationships, and behavioral patterns of each virtual individual, providing a solid foundation for subsequent writing style analysis and authorship identification tasks.
 
 
@@ -65,13 +66,13 @@ This methodology allows us to build a corpus that is not only demographically di
 #### 👀 2. Ownership Verification Protocol
 Black-box Verification Process:
 
-1.Partition each fingerprint text sample into prefix (x_pre) and ground-truth continuation (x_next)
+1. Partition each fingerprint text sample into prefix ($x_\text{pre}$) and ground-truth continuation ($x_\text{next}$)
 
-2.Feed prefix to suspect model to generate output (x_out)
+2. Feed prefix to suspect model to generate output ($x_\text{out}$)
 
-3.Calculate ROUGE-N similarity between x_out and x_next
+3. Calculate ROUGE-N similarity between $x_\text{out}$ and $x_\text{next}$
 
-4.Compute Fingerprint Success Rate (FSR) using AUC metric
+4. Compute Fingerprint Success Rate (FSR) using AUC metric
 
 
 
