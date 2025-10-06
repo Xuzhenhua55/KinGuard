@@ -116,7 +116,7 @@ Our ownership verification is implemented through a two-step process:
 ```
 verification/
 ├── sampling.py          # Generates model continuations
-└──  eval_samia.py        # Calculates FSR metrics
+└──  eval.py        # Calculates FSR metrics
 Experiments/
 ├──verify_fingerprint.sh  # One-click verification script
 ```
